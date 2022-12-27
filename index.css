@@ -1,62 +1,60 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    padding: 3px;
+    margin: 0;
+    overflow: hidden;
+    background-color: transparent;
 }
 
 :root {
-  /* account for the arrow */
-  --actual-height: calc(100vh - 12px);
+    --arrow-size: 17px;
+    --border-radius-wrapper: 8px;
+    --actual-height: calc(100vh - var(--arrow-size));
 }
 
-.myarrow {
-  position: relative;
-  /* padding-top: 12px; */
-  padding: 12px 0 0 0 ;
+.arrow-wrapper {
+    padding: 0;
+    height: 100vh;
 }
 
-.myarrow:before {
-  content: '';
-  height: 0;
-  width: 0;
-  border-width: 0 8px 12px 8px;
-  border-style: solid;
-  border-color: transparent transparent white transparent;
-  position: absolute;
-
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+.arrow-wrapper:before {
+    bottom: 5px;
+    transform: rotate(225deg);
+    z-index: 1;
+    position: absolute;
+    content: "";
+    width: var(--arrow-size);
+    height: var(--arrow-size);
+    border-color: white;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+    background: white;
+    box-shadow: -0.5px -0.5px 1px 0px #00000022;
+    left: 50%;
 }
 
 @media (prefers-color-scheme: dark) {
-  .myarrow:before {
-    border-color: transparent transparent #343541 transparent !important;
-  }
+    .arrow-wrapper:before {
+        border-color: #343541;
+    }
 }
 
 .page {
-  background: #eeeeee;
-  width: 100%;
-  height: 100vh;
-  margin-top: 12px;
-  margin: 0 auto;
-  position: relative;
-}
-
-.darwin.page {
-  border-radius: 8px;
-  overflow: hidden;
+    width: 100%;
+    height: var(--actual-height);
+    margin: 0 auto;
+    border: 1px solid #e5e5e5;
+    background: rgba(255, 255, 255, 0.985);
+    border-radius: var(--border-radius-wrapper);
+    box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 webview {
-  /* overflow: hidden; */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height:  calc(100vh - 12px);
-  display: inline-flex !important;
+    position: absolute;
+    overflow: hidden;
+    z-index: 2;
+    border-radius: var(--border-radius-wrapper);
+    width: 100%;
+    height: var(--actual-height);
+    display: inline-flex !important;
 }
