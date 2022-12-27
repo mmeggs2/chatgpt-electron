@@ -1,51 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8">
     <title>ChatGPT</title>
-    <link rel="stylesheet" href="index.css" />
-  </head>
-  <body class="myarrow">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<div class="arrow-wrapper">
     <div class="page darwin">
-    <webview id="webview" src="https://chat.openai.com/chat" autosize="on" >
-   </webview>
-  </div>
-    <script>
+        <webview id="webview" src="https://chat.openai.com/chat" autosize="on">
+        </webview>
+    </div>
+</div>
+<script>
     const webview = document.getElementById('webview');
-    webview.addEventListener('dom-ready', function() {
+    webview.addEventListener('dom-ready', function () {
+        // hide message below text input, sidebar, suggestions on new chat
+        webview.insertCSS(`
+          .hidden.bg-gray-900 {
+            display: none !important;
+          }
 
-      // hide message below text input, sidebar, suggestions on new chat
-      webview.insertCSS(`
-        .text-xs.text-center {
-          opacity: 0;
-          height: 0;
-          margin-bottom: -10px;
-        }
-        
-        .sticky,
-        .pointer-events-auto.flex.border-orange-500,
-        [class*="shared__Capabilities"] {
-          display: none !important;
-        }
+          [class*="Thread__Wrapper"] > div:first-child{
+            padding-left: 0 !important;
+          }
 
-        [class*="shared__Wrapper"] {
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          margin-top: 15vh;
-        }
+          .text-xs.text-center {
+            opacity: 0;
+            height: 0;
+            margin-bottom: -10px;
+          }
 
-        [class*="shared__Wrapper"] h3 {
-          margin-top: -40px;
-          font-size: 20px;
-        }
-      `)
+          .sticky,
+          .pointer-events-auto.flex.border-orange-500,
+          [class*="shared__Capabilities"] {
+            display: none !important;
+          }
 
-      const element = webview.executeJavaScript(`
-        document.querySelector("[class*='shared__Wrapper']").innerHTML += "<h3>Start by asking anything.</h3>"
-      `);
+          [class*="shared__Wrapper"] {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 15vh;
+          }
+
+          [class*="shared__Wrapper"] h3 {
+            margin-top: -40px;
+            font-size: 20px;
+          }
+        `)
+
+        const element = webview.executeJavaScript(`
+          document.querySelector("[class*='shared__Wrapper']").innerHTML += "<h3>Start by asking anything.</h3>"
+          const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+            mediaQuery.addListener(updateStyles);
+            updateStyles(mediaQuery);
+            function updateStyles(mq) {
+              if (mq.matches) {
+                document.body.classList.add("dark");
+              } else {
+                document.body.classList.remove("dark");
+              }
+            }
+        `);
     });
-
-    </script>
-  </body>
+</script>
+</body>
 </html>
